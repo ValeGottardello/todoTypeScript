@@ -2,22 +2,23 @@ import { useState } from 'react'
 import './App.css'
 import { Todos } from './components/Todos'
 import { TODO_FILTERS } from './const'
-import { type TodoId, type Todo as TodoType, FilterValue } from './types'
+import { type TodoId, type Todo as TodoType, FilterValue, TodoTitle } from './types'
 import { Footer } from './components/Footer'
+import { Header } from './components/Header'
 const mockToDos = [
   {
     id: '1',
-    title: 'Learn React',
+    title: 'Say Hello!',
     completed: false
   },
   {
     id: '2',
-    title: 'Learn TypeScript',
+    title: 'Keep learning TypeScript',
     completed: false
   },
   {
     id: '3',
-    title: 'Learn GraphQL',
+    title: 'Make new project',
     completed: false
   }
 ]
@@ -50,18 +51,38 @@ const App : React.FC = () => {
   const handleFilterChange = (filter: FilterValue) : void => {
     setFilterSelected(filter)
   }
+
   const activeCount = todos.filter(todo => !todo.completed).length
   const completedCount = todos.length - activeCount
+  const filteredTodos = todos.filter(todo => {
+    if (filterSelected === TODO_FILTERS.ACTIVE) return !todo.completed
+    if (filterSelected === TODO_FILTERS.COMPLETED) return todo.completed
+    return todo
+  })
+  const handleRemoveallCompleted = () : void => {
+    const newTodos = todos.filter(todo => !todo.completed)
+    setTodos(newTodos)
+  }
+  const handleAdd = ({title}: TodoTitle) : void => {
+    const newTodo = {
+      id: crypto.randomUUID(),
+      title,
+      completed: false
+    }
+    const newTodos = [...todos, newTodo]
+    setTodos(newTodos)
+  }
   return (
     <div className='todoapp'>
+      <Header onAddTodo={handleAdd}/>
       <Todos 
         onToggleCompleted={handleCompleted}
         onRemoveToDo={handleRemove}
-        todos={todos}/>
-        <Footer
+        todos={filteredTodos}/>
+      <Footer
         activeCount={activeCount}
         completedCount={completedCount}
-        onClearCompleted={() => {}}
+        onClearCompleted={handleRemoveallCompleted}
         filterSelected={filterSelected}
         handleFilterChange={handleFilterChange}/>
     </div>
