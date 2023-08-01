@@ -13,12 +13,12 @@ const mockToDos = [
   },
   {
     id: '2',
-    title: 'Keep learning TypeScript',
+    title: 'See my other projects',
     completed: false
   },
   {
     id: '3',
-    title: 'Make new project',
+    title: 'Contact me',
     completed: false
   }
 ]
@@ -72,19 +72,21 @@ const App : React.FC = () => {
     const newTodos = [...todos, newTodo]
     setTodos(newTodos)
   }
-  return (
-    <div className='todoapp'>
-      <Header onAddTodo={handleAdd}/>
-      <Todos 
-        onToggleCompleted={handleCompleted}
-        onRemoveToDo={handleRemove}
-        todos={filteredTodos}/>
-      <Footer
-        activeCount={activeCount}
-        completedCount={completedCount}
-        onClearCompleted={handleRemoveallCompleted}
-        filterSelected={filterSelected}
-        handleFilterChange={handleFilterChange}/>
+  return ( 
+    <div>
+      <div className='todoapp'>
+        <Header onAddTodo={handleAdd}/>
+        <Todos 
+          onToggleCompleted={handleCompleted}
+          onRemoveToDo={handleRemove}
+          todos={filteredTodos}/>
+        <Footer
+          activeCount={activeCount}
+          completedCount={completedCount}
+          onClearCompleted={handleRemoveallCompleted}
+          filterSelected={filterSelected}
+          handleFilterChange={handleFilterChange}/>
+      </div>
     </div>
   )
 }
